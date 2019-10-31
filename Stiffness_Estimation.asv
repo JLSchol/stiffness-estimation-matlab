@@ -99,17 +99,15 @@ for i = 1:trajectory_length
 end
 
 covlog = zeros(trajectory_length,1);
-covlog2 = covlog;
 Vlog = covlog;
 Elog = Vlog;
 Keiglog = Elog;
-Keiglog2 = Elog;
 Klog = Keiglog;
 for ii = 1 : trajectory_length
     covlog(ii) = covariance_log(3,3,ii);
-    covlog2(ii) = covariance_log(2,2,ii);
+    covlog2(ii) = covariance_log(3,3,ii);
     Keiglog(ii) = K_eig_log(3,3,ii);
-    Keiglog2(ii) = K_eig_log(2,2,ii);
+    Keiglog(ii) = K_eig_log(3,3,ii);
 %     dat4(ii) = covariance_log_matlab(3,3,ii);
 end
 
@@ -168,7 +166,7 @@ plot(X_v(2,:),'LineWidth',2)
 plot(X_v(2,:),'LineWidth',2); hold on;
 % scatter3(X_eq(1,:),X_eq(2,:),X_eq(3,:)); 
 plot(X_eq(3,:),'LineWidth',2); 
-% offset = (w_min + w_max)/2;
+offset = (w_min + w_max)/2;
 yline(w_min,'--k');
 yline(w_max,'--k');
 yline(-w_min,'--k');
@@ -184,7 +182,7 @@ legend("virtual perturbations","manipulator trajectory","min/max allowed perturb
 
 subplot(2,1,2)
 % plot(covlog,'LineWidth',2)
-plot(Keiglog2,'LineWidth',2);hold on
+plot(Keiglog,'LineWidth',2);hold on
 yline(k_min,'--k');
 yline(k_max,'--k');
 % line([covlog(1),covlog(1)],[k_min,k_min],'k')
