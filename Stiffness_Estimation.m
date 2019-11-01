@@ -39,9 +39,11 @@ z_v = x_eq;
 % y_v = x_eq;
 for s = 1 : length(amplitude)
     z_v = makeSinus(z_v,amplitude(s),freq(s),start(s),(start(s)+500));
-    y_v = makeSinus(y_v,amplitude(s),freq2(s),start(s),(start(s)+500));
+%     y_v = makeSinus(y_v,amplitude(s),freq2(s),start(s),(start(s)+500));
 end
+y_v = ones(1,trajectory_length) * 20;
 X_v = [x_v;y_v;z_v];
+
 
 % Actual trajectory ~ The actual measuremetns from the robot encoder
 noise = randn(3,trajectory_length)*0; %[min; max] ~ [-15; 15]
@@ -146,8 +148,9 @@ ylabel("z position [mm]")
 legend("virtual perturbations","manipulator trajectory","min/max allowed perturbation",'location','best')
 
 subplot(2,1,2)
-% plot(covlog,'LineWidth',2)
+
 plot(Keiglog,'LineWidth',2);hold on
+plot(covlog,'LineWidth',2);
 yline(k_min,'--k');
 yline(k_max,'--k');
 % line([covlog(1),covlog(1)],[k_min,k_min],'k')
@@ -185,8 +188,10 @@ legend("virtual perturbations","manipulator trajectory","min/max allowed perturb
 subplot(2,1,2)
 % plot(covlog,'LineWidth',2)
 plot(Keiglog2,'LineWidth',2);hold on
+plot(covlog2,'LineWidth',2);
 yline(k_min,'--k');
 yline(k_max,'--k');
+
 % line([covlog(1),covlog(1)],[k_min,k_min],'k')
 % line([covlog(1),covlog(1)],[k_max,k_max],'k')
 hold off
