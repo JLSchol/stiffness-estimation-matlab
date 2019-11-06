@@ -36,12 +36,17 @@ x_v = x_eq; % zeros
 y_v = y_eq; % zeros
 % z_v = amp(a) * sin(12*pi * x_eq/trajectory_length) - 10;
 z_v = x_eq;
+p_v = x_eq; % zeros
 % y_v = x_eq;
 for s = 1 : length(amplitude)
-    z_v = makeSinus(z_v,amplitude(s),freq(s),start(s),(start(s)+500));
+    p_v = makeSinus(p_v,amplitude(s),freq(s),start(s),(start(s)+500));
+%     z_v = makeSinus(z_v,amplitude(s),freq(s),start(s),(start(s)+500));
 %     y_v = makeSinus(y_v,amplitude(s),freq2(s),start(s),(start(s)+500));
 end
-y_v = ones(1,trajectory_length) * 20;
+theta = pi/4;
+y_v = p_v .* cos(theta)
+z_v = p_v .* sin(theta)
+
 X_v = [x_v;y_v;z_v];
 
 
@@ -84,6 +89,8 @@ for i = 1:trajectory_length
     
     % V*E*V' = cov
     % V coloms are corresponding right eigenvecotrs
+    % largest eigenvector points in the cirection of the largest variance
+    % eigenvector
     [V,E] = eig(covariance_t); 
 
     % Find  matrix
@@ -106,7 +113,7 @@ Vlog = covlog;
 Elog = Vlog;
 Keiglog = Elog;
 Keiglog2 = Elog;
-Klog = Keiglog;
+
 for ii = 1 : trajectory_length
     covlog(ii) = covariance_log(3,3,ii);
     covlog2(ii) = covariance_log(2,2,ii);
